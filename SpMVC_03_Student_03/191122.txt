@@ -1,0 +1,296 @@
+스프링으로 내용 구현, list.jsp에서 CSS 테이블 구현하기
+
+
+-------
+border-bottom:3px solid blue;
+박스 아랫줄에 3픽셀짜리 라인
+
+라인 추가해서 메뉴가 길어지는 것을 막으려면
+감싸는 상위 태그에
+border-bottom:3px solid transparent;
+투명한 색으로 만들기
+
+-------------- service 클래스 생성
+studentservice 생성
+
+클래스만들면 제일먼저 annotation 붙이기
+ㅇ@Service
+
+ㅇ@anootation 만들었으면 servlet-context.xml에
+ㅇ<context:component-scan base-package="com.biz.student.service" /> 추가
+
+서버재시작 해서 스프링이 서비스클래스를 인식하게 해주기.
+
+----------------- studentservice 내용 채우기
+
+	public List<StudentDTO> getStdList(){
+	
+		return null;
+	}
+------------------- 내용 채우기
+	public List<StudentDTO> getStdList(){
+
+		List<StudentDTO> stdList = new ArrayList<StudentDTO>();
+		StudentDTO stDTO ;//= new StudentDTO(); 빌더를 쓰기 때문에 선언만
+		stDTO = StudentDTO.builder()
+				.st_num("2019001")
+				.st_name("홍길동")
+				.st_dept("컴퓨터공학과")
+				.st_grade(2)
+				.build();
+		stdList.add(stDTO);
+
+		return stdList;
+	}
+
+-----------------렌더링 위해 controller 수정
+멤버변수 영역에 StudentService sService; 추가
+(선언만 하고 초기화를 안해서 nullpointer익셉션 발생)
+
+
+
+
+list 메서드에
+model.addAttribute 아래
+
+List<StudentDTO> stdList= sService.getStdList(); 추가
+
+---------- 스프링의 특징 중 하나인 제어역전(Ioc)
+
+------------ 초기화를 위해 new StudentService()를 하지 않고
+	// @Inject : Java EE(EJB)에서 제공하는 기능
+	@Autowired // : Spring Framework의 고유 기능
+	StudentService sService;
+처럼 @ 추가
+
+----------- 이제 list에 학생정보 담겨 있으니, view화면에 rendering 할 수 있게 공급하기
+
+	model.addAttribute("STDLIST",stdList);
+
+----------- jsp파일에서 list를 가져다가 쓸 수 있게 하기
+list.jsp에서
+
+
+ㅇ<c:forEach items="${STDLIST}" var="dto">
+
+ㅇ	<p>${dto.st_num} : 
+ㅇ	${dto.st_name} :
+ㅇ	${dto.st_dept} :
+ㅇ	${dto.st_grade} :
+
+ㅇ</c:forEach>
+
+----------------테이블 위해 vscode 실행
+table.html 생성
+
+
+파일- 설정 - 텍스트 편집기 - 글꼴
+D2Coding
+D2Coding 추가
+
+------------------- table(표형식 문서 만들 때 사용한다.)
+colspan은 row를 통합(가로로)
+rowspan은 column을 통합(세로로)
+<body>
+    <table border="1"> -- 표 만들 때, 박스 전체 틀을 실선으로
+        <tr> -- 가로 줄 생성
+            <td>번호</td>
+            <td>이름</td>
+            <td>학과</td>
+        </tr>
+        <tr>
+            <td>001</td>
+            <td>홍길동</td>
+            <td>정보통신과</td>
+        </tr>
+        <tr>
+            <td>002</td>
+            <td>성춘향</td>
+            <td>법학과</td>
+        </tr>
+        <tr>
+            <td>003</td>
+            <td>이몽룡</td>
+            <td>정치외교학과</td>
+            <td>3</td> ---- 가장 많은 친구를 만들어주고 나머지 사람들은 여백 추가
+        </tr>
+        <tr>
+            <td>003</td> 003 하나만 나오고 나머지 여백.
+        </tr>
+        <tr>
+            <td colspan="4">004</td> -- 003을 4칸으로
+        </tr>
+    </table>
+</body>
+
+------------------vscode 만든것을 sts의 list.jsp에 붙여넣기
+번호 이름 학과 학년 담임교수 (제목 줄 표시하기)
+
+	<c:forEach items="${STDLIST}" var="dto">
+		<p>${dto.st_num}:${dto.st_name} : ${dto.st_dept} : ${dto.st_grade}	:
+	</c:forEach>
+를 오려서
+
+<table> 안에 넣기
+
+ㅇ<table>
+ㅇ	<tr>
+ㅇ		<td>번호</td>
+ㅇ		<td>이름</td>
+ㅇ		<td>학과</td>
+ㅇ		<td>학년</td>
+ㅇ		<td>담임교수</td>
+ㅇ	</tr>
+ㅇ	<c:forEach items="${STDLIST}" var="dto">
+ㅇ		<tr>
+ㅇ			<td>{$dto.st_num}</td>
+ㅇ			<td>{$dto.st_name}</td>
+ㅇ			<td>{$dto.st_dept}</td>
+ㅇ			<td>{$dto.st_grade}</td>
+ㅇ			<td>{$dto.st_pro}</td>
+ㅇ		</tr>
+ㅇ	</c:forEach>
+ㅇ</table>
+
+--------------margin:20px auto;
+위에 20픽셀 주고 나머진 마음대로 가운데정렬
+--------------그 후 list.jsp에서 css 추가
+
+---------------조건부 서식
+/* 조건부 서식*/ -- tr이 가지고 있는 nth-child에
+
+table tr:nth-child(odd){ -- 홀수
+	background-color: #fff;
+}
+table tr:nth-child(even){ -- 짝수
+	background-color: #ccc;
+}
+
+-----------------student service에서
+return stdList;를
+return null;로 하면
+리스트가 보이지 않음.
+
+list.jsp에서
+	<c:choose>
+		<c:when test="${STDLIST == NULL}">
+			<tr>
+				<td colspan="5">
+					데이터가 없습니다
+				</td>
+			</tr>
+		</c:when>
+		<c:otherwise>
+		<tr>
+			<td>${dto.st_num}</td>
+			<td>${dto.st_name}</td>
+			<td>${dto.st_dept}</td>
+			<td>${dto.st_grade}</td>
+			<td>${dto.st_pro}</td>
+		</tr>
+		</c:otherwise>
+		
+	</c:choose>
+추가
+
+------------mybatis 이용해서 유 가져오기
+*******데이터베이스 사용위해 설정(중간에 절대 저장X)
+
+
+메이븐 리포지토리 mybatis(지난번에 쓴것), mybatis spring(spring과 연동) 두개 가져오기.
+
+pom.xml 에서
+
+<!--spring-->과 <!--aspectj--> 사이에 추가(--spring--마지막줄에 추가)
+<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis</artifactId>
+    <version>3.5.3</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis-spring</artifactId>
+    <version>2.0.3</version>
+</dependency>
+
+---- spring-jdbc 검색
+Spring JDBC 클릭
+
+<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-jdbc</artifactId>
+    <version>5.1.11.RELEASE</version>
+</dependency>
+
+버전이 같아야하니
+spring-context의
+<version>${org.springframework-version}</version> 복사해서
+
+--- dbcp 검색
+Apache Commons DBCP 클릭
+<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-dbcp2</artifactId>
+    <version>2.7.0</version>
+</dependency>
+
+
+-- 오라클도 추가
+<dependency>
+	<groupId>com.oracle</groupId>
+	<artifactId>ojdbc6</artifactId>
+	<version>11.2.0</version>
+</dependency>
+
+----------------만약 여기서 dependency에 빨간색 뜨면 메이븐 다시 만들기
+작업폴더에서 apache-maven-3.6.2에서
+conf폴더 settings.xml서브라임으로 열기
+맨밑의 <localRepository>C:/bizwork/jdk_3rd/repo</localRepository> 주소 확인
+
+그리고 sts 메뉴 preference에서 메이븐 - User Settings - 파일 경로 확인
+
+그리고 apache-maven.3.6.2 - bin폴더에서
+쉬프트 우클릭, 여기서 명령창 열기
+
+선생님 참고자료 - 오라클Maven설치.txt 열기
+
+오라클 ojdbc.jar를 POM 리파지토리에 저장
+mvn install:install-file -Dfile=C:/oraclexe/app/oracle/product/11.2.0/server/jdbc/lib/ojdbc6.jar -Dpackaging=jar -DgeneratePom=true -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0 -DlocalRepository=C:/bizwork/jdk_3rd/repo
+
+복사해서
+
+mvn install:install-file -Dfile=C:/oraclexe/app/oracle/product/11.2.0/server/jdbc/lib/ojdbc6.jar -Dpackaging=jar -DgeneratePom=true -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0
+
+이거를 커맨드창에 붙여넣기
+BUILD SUCCESS 뜨면 성공(STS의 dependency 빨간줄이 삭제됨, maven update 실행)
+
+pom.xml 설정 끝
+-------------------------------------------
+
+appServlet 폴더에서 spring bean definition file 생성 finish 누르지 말고 next
+beans와 context, mvc, tx 체크하고 모두 제일 마지막버전 선택 후 finish
+
+----------------------------------연결 위치 설명
+이전에 한건
+ojdbc - jdbc -mybatis 연결
+
+
+스프링과 오라클 연결
+ojdbc-dbcp2 - spl-jdbc 와 mybatis -java
+
+dbcp2의 datasource를 mybatis와 연결
+
+mybatis-context.xml에서(참고자료 - mybatis-config.xml 참조)
+	<bean class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+		<property name="username" value="user"/>
+		<property name="password" value="user"/>
+	</bean>
+	
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean"></bean>
+	<bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager"></bean>
