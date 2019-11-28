@@ -16,7 +16,7 @@ import lombok.ToString;
 public class ProductDTO {
 	private String p_code;//	number
 	private String p_name;//	nvarchar2(25 char)
-	private String p_iprice;//	nvarchar2(25 char)
-	private String p_oprice;//	nvarchar2(25 char)
+	private int p_iprice;//	nvarchar2(25 char)
+	private int p_oprice;//	nvarchar2(25 char)
 	private String p_vat;//	nvarchar2(2 char)
 }

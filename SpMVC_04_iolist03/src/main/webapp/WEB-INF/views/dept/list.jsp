@@ -8,7 +8,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>□□□ 나의 JSP 페이지 □□□</title>
-<%@ include file="/WEB-INF/views/include/include-css.jspf" %>
+<link href="${rootPath}/css/list-table.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/css/top-scroll.css" rel="stylesheet" type="text/css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <style>
@@ -28,12 +29,28 @@ $(function(){
 		// d_code 변수에 값을 실어서 보내라
 		document.location.href = "${rootPath}/dept/view?d_code=" + d_code
 	})
+		// 현재 보고 있는 화면의 scrollTop 값을 추출하여
+	    // 변수에 임시 보관
+	    var preScroll = $(window).scrollTop();
+	// jQ 코드 시작, 우리가 보는 화면(windows)에 스크롤이 발생하면
+	    $(window).scroll(function(e){
+	        let curScroll = $(window).scrollTop();
+	        // 아래방향으로 스크롤을 시도하면
+	        if(preScroll > curScroll){
+	            $("ul.main-menu").css("top",0)
+	        } else {
+	            $("ul.main-menu").css("top",-80)
+	        }
+	        preScroll = curScroll
+	    })
 })
 </script>
+
+
 </head>
 <body>
-<%@ include file="/WEB-INF/views/include/include-dept-header.jspf" %>
-<section>
+<%@ include file="/WEB-INF/views/include/include-nav.jspf" %>
+<section class="dept">
 	<article>
 		<p id="insert"><a href="${rootPath}/dept/insert"><button>새로등록</button></a></p>
 	</article>

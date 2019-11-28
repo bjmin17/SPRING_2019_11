@@ -5,10 +5,10 @@
 
 <mapper namespace="com.biz.iolist.persistence.ProductDao">
 
-	<select id="selectAll" resultType="ProDTO">
+	<select id="selectAll" resultType="ProductDTO">
 		SELECT * FROM tbl_product ORDER BY p_name
 	</select>
-	<select id="findByPCode" resultType="ProDTO">
+	<select id="findByPCode" resultType="ProductDTO">
 		SELECT * FROM tbl_product WHERE p_code = #{p_code}
 	</select>
 	<select id="getPCode" resultType="String">
@@ -17,7 +17,7 @@
 	
 	
 
-	<insert id="insert" parameterType="ProDTO">
+	<insert id="insert" parameterType="ProductDTO">
 		INSERT INTO tbl_product(P_CODE,
 							P_NAME,
 							P_IPRICE,
@@ -31,7 +31,7 @@
 				#{p_vat,jdbcType=VARCHAR})
 
 	</insert>
-	<update id="update" parameterType="ProDTO">
+	<update id="update" parameterType="ProductDTO">
 		UPDATE tbl_product SET
 		
 				
