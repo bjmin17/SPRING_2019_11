@@ -17,6 +17,7 @@
 	body {
 		width:95%;
 		margin:0 auto;
+		background-color: #ccc;
 	}
 	
 	header {
@@ -25,15 +26,37 @@
 		
 	}
 
-
+	article.bok-body{
+		display:flex;
+	}
+	
+	section#bok-search{
+		flex:5 0 500px;
+		background-color: white;
+		margin-right:5px;
+	}
+	
+	section#bok-list{
+		flex:3 0 500px;
+		background-color: white;
+		overflow: auto;
+	}
 </style>
 </head>
 <body>
-<header>
-	<h3>복지로 서비스</h3>
-</header>
-<section>
-	<%@ include file="/WEB-INF/views/BokSearch.jsp" %>
-</section>
+	<header>
+		<h3>복지로 서비스</h3>
+	</header>
+	<article class="bok-body">
+		<section id="bok-search">
+			<%@ include file="/WEB-INF/views/BokSearch.jsp" %>
+		</section>
+		<section id="bok-list">
+			<%@ include file="/WEB-INF/views/BokList.jsp" %>
+		</section>
+	</article>
+		<section id="bok-temp">
+			
+		</section>
 </body>
 </html>

@@ -5,15 +5,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.biz.bok.domain.BokDetailVO;
 import com.biz.bok.domain.BokListVO;
 import com.biz.bok.domain.BokSearchDTO;
-import com.biz.bok.service.BokService;
+import com.biz.bok.service.BokDetailService;
+import com.biz.bok.service.BokListService;
 import com.biz.bok.service.CodeService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +59,10 @@ public class BokController {
 	
 	
 	@Autowired
-	BokService bService;
+	BokListService blService;
+	
+	@Autowired
+	BokDetailService bdService;
 	/*
 	 * SessionAttributes에 등록된 객체변수는
 	 * 현재 controller내에서 반드시 생성하는 method가 있어야 한다.
@@ -66,7 +73,7 @@ public class BokController {
 //		BokSearchDTO bkDTO = BokSearchDTO.builder()
 //						.searchWrd("고용정책")
 //						.build();
-		return bService.getDefaultSearch();
+		return blService.getDefaultSearch();
 	}
 	
 	/*
@@ -89,20 +96,48 @@ public class BokController {
 	}
 	// POST에서 다시 청년정책을 보냄.
 	
-	@ResponseBody
+//	@ResponseBody
 	@RequestMapping(value="search", method=RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public List<BokListVO> search(@ModelAttribute("bokSearchDTO") BokSearchDTO bokSearchDTO, Model model, String strDummy) {
+	public String search(@ModelAttribute("bokSearchDTO") BokSearchDTO bokSearchDTO, Model model, String strDummy) {
 		
 //		bokSearchDTO.setSearchWrd("청년정책");
 		
 		model.addAttribute("bokSearchDTO",bokSearchDTO);
 		model.addAttribute("SeMap",cService.getSelectMaps());
 	
-		List<BokListVO> bokList = bService.getRestResult(bokSearchDTO);
+		List<BokListVO> bokList = blService.getRestResult(bokSearchDTO);
 		
 		log.debug("결과물 : " + bokList);
 		
-		return bokList;
+		model.addAttribute("BOK_LIST",bokList);
+		
+		return "home";
 //		return "home";
 	}
+	
+//	@ResponseBody
+	@RequestMapping(value="searchAPI", method=RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public String searchAPI(@ModelAttribute("bokSearchDTO") BokSearchDTO bokSearchDTO, Model model, String strDummy) {
+		model.addAttribute("bokSearchDTO",bokSearchDTO);
+		model.addAttribute("SeMap",cService.getSelectMaps());
+	
+		List<BokListVO> bokList = blService.getRestResult(bokSearchDTO);
+		
+		log.debug("결과물 : " + bokList);
+		
+		model.addAttribute("BOK_LIST",bokList);
+		return "BokList";
+	}
+	
+	@RequestMapping(value="detail",method=RequestMethod.GET,produces="application/json;charset=UTF-8")
+	public String detail(@RequestParam("id") String servId, Model model) {
+		
+		BokDetailVO bokDetail = bdService.getRestResult(servId);
+		log.debug("디테일"+bokDetail.toString());
+		model.addAttribute("detail",bokDetail);
+		
+		return "BokDetail";
+		
+	}
+	
 }

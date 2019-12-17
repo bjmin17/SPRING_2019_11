@@ -21,11 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class BokService {
+public class BokListService {
 
 	private final String bok_url = "http://www.bokjiro.go.kr/openapi/rest/gvmtWelSvc";
-	private final String bok_list_url = "/NationalWelfarelist";
-	private final String bok_detail_url = "/NationalWelfaredetailed";
 	
 	public String getQueryHeader(BokSearchDTO bokDTO) {
 		
@@ -41,7 +39,7 @@ public class BokService {
 		
 		queryString += "?crtiKey="+DataGoConfig.DATA_GO_AUTH;		//	인증키
 		
-		queryString += "&callTp="+bokDTO.getCallTp();		//	페이지타입
+		queryString += "&callTp=L";		//	페이지타입
 		queryString += "&pageNum="+bokDTO.getPageNo();		//	페이지시작위치
 		queryString += "&numOfRows="+bokDTO.getNumOfRows();		//	출력건수
 		
@@ -62,6 +60,8 @@ public class BokService {
 		queryString += "&trgterIndvdlArray="+bokDTO.getTrgterIndvdlArray();//	가구유형
 		queryString += "&desireArray="+bokDTO.getDesireArray();	//	욕구
 
+		log.debug("쿼리문자열 : " + queryString);
+		
 		return queryString;
 	}
 	
