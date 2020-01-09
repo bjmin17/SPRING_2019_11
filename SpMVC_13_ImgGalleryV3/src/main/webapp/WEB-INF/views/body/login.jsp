@@ -87,11 +87,20 @@
 			document.location.href="${rootPath}/member/join"
 		})
 		$("btn-login").click(function(){
+			// 유효성검사
+			// id, password가 입력되지 않았을 때 경고를 띄움
+			let u_id = $("#u_id").val()
+			if(u_id == "") {
+				alert("아이디를 입력하세요")
+				$("#u_id").focus()
+				return false;
+			}
 			
+			// 유효성 검사 뒤 넘김, ajax나 post 둘 중 하나 쓰기
 			var params = $("form").serialize();
 			$.ajax({
 				
-				url : "${rootPath}/member/login",
+				url : "${rootPath}/rest/member/login",
 				type:'POST',
 				data:params,
 				dataType:'json',
@@ -101,14 +110,15 @@
 				
 			})
 			
-			
 			/*
-			$.post("${rootPath}/member/login",
+			$.post("${rootPath}/rest/member/login",
 				
-				{$("form").serialize() },
+				$("form").serialize() ,
 				function(result){
 					alert(result)
-				}
+					// f5눌러서 refresh 하라는 코드
+					document.location.href = document.location.href
+				
 				
 			})
 			*/
@@ -130,8 +140,8 @@
 			<h3>로그인을 환영합니다.</h3>
 		</c:if>
 		
-		<input type="text" name="u_id" placeholder="사용자 ID">
-		<input type="password" name="u_password" placeholder="비밀번호">
+		<input type="text" id="u_id" name="u_id" placeholder="사용자 ID">
+		<input type="password" id="u_password" name="u_password" placeholder="비밀번호">
 		<button type="submit" id="btn-login">로그인</button>
 		<button type="button" id="btn-join">회원가입</button>
 	</form>

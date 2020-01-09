@@ -57,11 +57,13 @@ public class ImgController {
 	public String upload(@ModelAttribute("imageVO") ImageVO imageVO, Model model, HttpSession httpSession) {
 		
 		// MEMBER를 꺼내서 member에 담겠다.
+		/*
 		MemberVO member = (MemberVO) httpSession.getAttribute("MEMBER");
 		if(member == null) {
 			model.addAttribute("MODAL","LOGIN");
 			return "home";
 		}
+		*/
 		log.debug("이미지 업로드 시작!!");
 		
 		// SessionAttribute 때문에, 수정을 누르고 뒤로가기를 누른 후 이미지 올리기를 하면 기존의 값이 남아있는데
@@ -97,7 +99,20 @@ public class ImgController {
 	 */
 	// value의 {img_seq}를 받기위해 매개변수로 값을 받아주기
 	@RequestMapping(value="/update/{img_seq}",method=RequestMethod.GET)
-	public String update(@PathVariable("img_seq") String img_seq, Model model) {
+	public String update(@PathVariable("img_seq") String img_seq, Model model, HttpSession httpSession) {
+		
+		
+		// login이 되었는지 아닌지만 검사하기 위해
+		// Object 형으로 session 객체를 추출
+		/*
+		Object memberVO = httpSession.getAttribute("MEMBER");
+		if(memberVO == null) {
+			model.addAttribute("MODAL","LOGIN");
+			return "home";
+		}
+		*/
+		
+		
 		
 		log.debug(img_seq);
 		ImageVO imgVO = imService.findBySeq(img_seq);
@@ -135,8 +150,16 @@ public class ImgController {
 	}
 	
 	@RequestMapping(value="/delete/{img_seq}",method=RequestMethod.GET)
-	public String delete(@PathVariable String img_seq,SessionStatus status) {
+	public String delete(@PathVariable String img_seq,SessionStatus status,HttpSession httpSession,Model model) {
 		
+		// login이 되었는지 아닌지만 검사하기 위해
+		// Object 형으로 session 객체를 추출
+		Object memberVO = httpSession.getAttribute("MEMBER");
+		if(memberVO == null) {
+			model.addAttribute("MODAL","LOGIN");
+			return "home";
+		}
+				
 		int ret = imService.delete(img_seq);
 		
 		status.setComplete();

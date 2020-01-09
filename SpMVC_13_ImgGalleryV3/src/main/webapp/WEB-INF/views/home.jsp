@@ -269,7 +269,7 @@
 						// 앞에 꺼는 컨트롤러에서 받는 변수, 뒤에꺼는 실제 담긴 값
 						data : {img_seq : img_seq},
 						type : 'POST',
-						success : function() {
+						success : function(result) {
 							// 현재화면 새로고침하라는 이야기
 							if(result < 1)
 								alert("삭제도중 문제 발생")

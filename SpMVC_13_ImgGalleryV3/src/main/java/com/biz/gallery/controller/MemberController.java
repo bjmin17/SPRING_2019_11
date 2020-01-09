@@ -40,6 +40,11 @@ public class MemberController {
 		return "redirect:/image/list";
 	}
 	
+	@RequestMapping(value="/login",method=RequestMethod.GET)
+	public String login() {
+		return "body/login";
+	}
+	
 //	@ResponseBody
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	public String login(MemberVO memberVO, Model model, HttpSession httpSession) {
