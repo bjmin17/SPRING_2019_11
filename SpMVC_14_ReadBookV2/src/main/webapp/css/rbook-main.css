@@ -60,6 +60,7 @@ button {
 	border:none;
 	display: inline-block;
 	padding: 8px 16px;
+	margin:5px;
 	vertical-align: middle;	
 	text-decoration: none;
 	text-align: center;
@@ -70,6 +71,7 @@ button {
 	color:inherit;
 	background-color: inherit;
 	border-radius: 5px;
+	
 }
 
 /*
@@ -80,3 +82,101 @@ button:hover {
 	color:#000 !important;
 	background-color: #ccc !important;
 }
+
+#modal-box {
+	display: none;
+	position: fixed;
+	z-index: 5;
+	padding-top: 0;
+	
+	left:0;
+	top:0;
+	
+	background-color: rgba(0,0,0,0.4);
+	width: 100%;
+	height: 100%;	
+}
+
+.modal-header {
+	display: flex;
+}
+.modal-header span{
+	color: white;
+	font-size:30px;
+	font-weight: bold;
+	margin-left: auto;
+	margin-right: 10px;
+	
+}
+
+.modal-header span:hover {
+	cursor: pointer;
+	color:#000;
+}
+
+#modal-content{
+	
+	position:relative;
+	overflow: auto;
+	width: 80%;
+	margin: 0 auto;
+
+	background-color:gray;
+	padding:5px 10px;
+	border-radius:20px;
+		
+	animation-name : book-box;
+	animation-duration : 0.8s;
+	animation-fill-mode : forwards;
+	
+	-webkit-animation-name : book-box;
+	-webkit-animation-duration : 0.8s;
+	
+	-moz-animation-name : book-box;
+	-moz-animation-duration : 0.8s;
+	
+	-ms-animation-name : book-box;
+	-ms-animation-duration : 0.8s;
+}
+
+
+@keyframes book-box{
+	from{
+		top: -400px;
+		opacity: 0;
+	}
+	to{
+		top: 200px;
+		opacity: 1;
+	}
+}
+@-webkit-keyframes book-box{
+	from{
+		top: -400px;
+		opacity: 0;
+	}
+	to{
+		top: 200px;
+		opacity: 1;
+	}
+}	
+@-moz-keyframes book-box{
+	from{
+		top: -400px;
+		opacity: 0;
+	}
+	to{
+		top: 200px;
+		opacity: 1;
+	}
+}	
+@-ms-keyframes book-box{
+	from{
+		top: -400px;
+		opacity: 0;
+	}
+	to{
+		top: 200px;
+		opacity: 1;
+	}
+}	

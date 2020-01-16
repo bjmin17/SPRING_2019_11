@@ -1,4 +1,25 @@
 @charset "UTF-8";
+
+table {
+	border-bottom: 1px solid #ddd;
+	border-collapse: collapse;
+}
+
+td, th {
+	white-space: nowrap;
+	text-align: left;
+	padding: 8px;
+	vertical-align: top;
+}
+
+tr:first-child {
+	border-top: 1px solid #ddd;
+}
+
+tr:nth-child(even) {
+	background-color: #f1f1f1;
+}
+
 /*
 html tag의 height값을 지정하려면
 반드시 앞에서 html, body의 height를 지정해주어야 한다.
@@ -23,24 +44,15 @@ section#main-list {
 	
 */
 #main-table {
-	border-collapse: collapse;
+	
 	width: 90%;
 	
 	
 	margin:10px auto;
-	border-bottom: 1px solid #ddd;
 	
 	height: 100%;
 	display: block;
 	
-}
-
-#main-table td, #main-table th {
-	
-	white-space: nowrap;
-	text-align: left;
-	padding: 8px;
-	vertical-align: top;
 }
 
 #main-table tbody {
@@ -49,6 +61,9 @@ section#main-list {
 	overflow: scroll;
 }
 
-#main-table th:nth-of-type(6),#main-table td:nth-of-type(6) {
-	width:70%;
-}
+#main-table th:nth-of-type(1),#main-table td:nth-of-type(1) {width:10%;}
+#main-table th:nth-of-type(2),#main-table td:nth-of-type(2) {width:20%;}
+#main-table th:nth-of-type(3),#main-table td:nth-of-type(3) {width:30%;}
+#main-table th:nth-of-type(4),#main-table td:nth-of-type(4) {width:30%;}
+#main-table th:nth-of-type(5),#main-table td:nth-of-type(5) {width:70%;}
+#main-table th:nth-of-type(6),#main-table td:nth-of-type(6) {width:10%;}

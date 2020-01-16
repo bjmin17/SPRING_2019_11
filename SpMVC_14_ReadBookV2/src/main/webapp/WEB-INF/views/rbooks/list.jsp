@@ -14,6 +14,11 @@ $(function(){
 	$("#btn-write").click( ()=> {
 		document.location.href="${rootPath}/rbook/insert"
 	})
+	$("#main-table tbody tr").click(function(){
+		let rb_seq = $(this).attr("data-id")
+		document.location.href = "${rootPath}/rbook/view/" + rb_seq
+	
+	})
 	
 })
 </script>
@@ -37,15 +42,15 @@ $(function(){
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach begin="1" end="50">
-				<tr>
+			<c:forEach items="${RBOOKS}" var="rBook">
+				<tr data-id="${rBook.rb_seq}">
 					<td>사용자ID</td>
-					<td>도서코드</td>
-					<td>도서이름</td>
-					<td>독서일자</td>
-					<td>독서시간</td>
-					<td>한줄평</td>
-					<td>별점</td>
+					<td>${rBook.rb_bcode}</td>
+					<td>${rBook.rb_bname}</td>
+					<td>${rBook.rb_date}</td>
+					<td>${rBook.rb_stime}</td>
+					<td>${rBook.rb_subject}</td>
+					<td>${rBook.rb_star}</td>
 				</tr>
 			</c:forEach>
 		</tbody>
