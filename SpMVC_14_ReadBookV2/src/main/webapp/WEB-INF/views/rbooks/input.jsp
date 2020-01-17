@@ -41,7 +41,7 @@ $(function(){
 		내용을 전체 블럭 설정하여 다른 글자를 입력하면
 		내용이 삭제되는 기능 구현
 	*/
-	$("#rb_bname").focus(function(){
+	$("#rb_bname, #rb_rtime, #rb_bcode, #rb_subject").focus(function(){
 		
 		$(this).select()
 		
@@ -203,7 +203,7 @@ $(function(){
 		<form:form modelAttribute="rBookVO">
 			<div class="input-box">
 				<form:input type="text" path="rb_bcode" placeholder="도서 코드"/>
-				<input id="rb_bname" name="rb_bname" placeholder="도서이름을 입력한 후 Enter...">
+				<form:input path="rb_bname" placeholder="도서이름을 입력한 후 Enter..."/>
 			</div>
 			<div class="input-box">
 				<form:input type="date" path="rb_date" placeholder="독서일자"/>
