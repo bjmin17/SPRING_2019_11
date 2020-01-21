@@ -2,16 +2,20 @@ package com.biz.ems.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.biz.ems.domain.EmailVO;
+import com.biz.ems.service.MailService;
 import com.biz.ems.service.SendMailService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class EMSController {
 	
 	private final SendMailService xMailService;
+	private final MailService mailService;
 	
 	/*
 	 * ModelAttribute 생성자 method
@@ -44,13 +49,24 @@ public class EMSController {
 		String curTime = st.format(date);
 		
 		EmailVO emailVO = EmailVO.builder()
-							.send_date(curDate)
-							.send_time(curTime)
+							.sendDate(curDate)
+							.sendTime(curTime)
 							.build();
 		
 		return emailVO;
 	}
 
+	@RequestMapping(value="/list",method=RequestMethod.GET)
+	public String list(Model model, SessionStatus sStatus) {
+		
+		List<EmailVO> mailList = mailService.selectAll();
+		model.addAttribute("LIST",mailList);
+		
+		sStatus.setComplete();
+		return "home";
+		
+	}
+	
 	@RequestMapping(value="/input",method=RequestMethod.GET)
 	public String input(@ModelAttribute("emailVO") EmailVO emailVO,Model model,SessionStatus status) {
 		
@@ -65,10 +81,67 @@ public class EMSController {
 	}
 	
 	@RequestMapping(value="/input",method=RequestMethod.POST)
-	public String input(@ModelAttribute("emailVO") EmailVO emailVO) {
-		xMailService.sendMail(emailVO);
+	public String input(@ModelAttribute("emailVO") EmailVO emailVO,SessionStatus sStatus) {
+//		xMailService.sendMail(emailVO);
+		
+		mailService.insert(emailVO);
+		sStatus.setComplete();
+		
 		return "redirect:/";
 	}
+	
+	// @ResponseBody
+	@RequestMapping(value="/update/{ems_seq}",method=RequestMethod.GET)
+	public String update(@ModelAttribute("emailVO") EmailVO emailVO, 
+					@PathVariable("ems_seq") String ems_seq, Model model) {
+		
+		emailVO = mailService.findBySeq(Long.valueOf(ems_seq));
+		
+		model.addAttribute("BODY", "WRITE");
+		model.addAttribute("emailVO",emailVO);
+		
+		return "home";
+		
+	}
+	
+	@RequestMapping(value="/update/{ems_seq}",method=RequestMethod.POST)
+	public String update(@ModelAttribute("emailVO") EmailVO emailVO, 
+					@PathVariable("ems_seq") String ems_seq, Model model, String dummy) {
+		
+		mailService.update(emailVO);
+		
+		model.addAttribute("BODY", "WRITE");
+		model.addAttribute("emailVO",emailVO);
+		
+		return "redirect:/";
+		
+	}
+	
+	// @ResponseBody
+	@RequestMapping(value="/view/{ems_seq}",method=RequestMethod.GET)
+	public String view(@ModelAttribute("emailVO") EmailVO emailVO, 
+					@PathVariable("ems_seq") String ems_seq, Model model) {
+		
+		emailVO = mailService.findBySeq(Long.valueOf(ems_seq));
+		
+		model.addAttribute("BODY", "VIEW");
+		model.addAttribute("emailVO",emailVO);
+		
+		return "home";
+		
+	}
+	
+	@RequestMapping(value="/delete/{ems_seq}",method=RequestMethod.GET)
+	public String delete( 
+					@PathVariable("ems_seq") String ems_seq, Model model) {
+		
+		mailService.delete(Long.valueOf(ems_seq));
+		
+		return "redirect:/";
+		
+	}
+	
+	
 	
 	
 	

@@ -29,7 +29,7 @@ $(function(){
 		width:'100%',
 		toolbar:toolbar,
 		height:'200px',
-		disableDragAndDrop: true
+		disableDragAndDrop: false
 		
 	})
 	
@@ -40,7 +40,7 @@ $(function(){
 <fieldset class="email-write-box">
 	<form:form modelAttribute="emailVO">
 		<div class="in-box">
-			<label for="from_email">보내는 Email</label><form:input path="from_email"/>
+			<label for="fromEmail">보내는 Email</label><form:input path="fromEmail"/>
 		</div>
 		
 		<div class="in-box">
@@ -48,15 +48,15 @@ $(function(){
 		</div>
 		
 		<div class="in-box">
-			<label for="send_date">작성일자</label><form:input path="send_date"/>
+			<label for="sendDate">작성일자</label><form:input path="sendDate"/>
 		</div>
 		
 		<div class="in-box">
-			<label for="send_time">작성시각</label><form:input path="send_time"/>
+			<label for="sendTime">작성시각</label><form:input path="sendTime"/>
 		</div>
 		
 		<div class="in-box">
-			<label for="from_name">작성자</label><form:input path="from_name"/>
+			<label for="fromName">작성자</label><form:input path="fromName"/>
 		</div>
 		
 		<div class="in-box">

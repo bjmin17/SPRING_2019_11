@@ -23,18 +23,16 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/include-header2.jsp" %>
-
-
 	<c:choose>
 		<c:when test="${BODY == 'WRITE'}">
 			<%@ include file="/WEB-INF/views/body/ems/write.jsp" %>		
-		</c:when>
-		<c:when test="${BODY == 'VIEW'}">
-			<%@ include file="/WEB-INF/views/body/ems/view.jsp" %>
 		</c:when>
 		<c:otherwise>
 			<%@ include file="/WEB-INF/views/body/ems/list.jsp" %>
 		</c:otherwise>
 	</c:choose>
+<div class="bottom-button">
+	<button type="button" class="btn btn-primary">메일보내기</button>
+</div>
 </body>
 </html>

@@ -12,11 +12,16 @@
 			
 			document.location.href = "${rootPath}/" + href
 		})
+		$(".goHome").click(function(){
+			
+			document.location.href = "${rootPath}/"
+			
+		})
 	})
 
 </script>
 <header class="jumbotron">
-	<h2>MY EMS</h2>
+	<h2 class="goHome">MY EMS</h2>
 </header>
 <nav>
 	<ul class="nav">

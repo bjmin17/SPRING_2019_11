@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<script>
+$(function(){
+	$(".email-list").click(function(){
+		document.location.href = "${rootPath}/ems/view/" + $(this).data("seq")
+	})
+})
+
+</script>
+
 <section>
 	<article>
 		<table class="table">
@@ -20,20 +29,21 @@
 				</c:when>
 				<c:otherwise>
 					<c:forEach items="${LIST}" var="VO" varStatus="in">
-						<tr>
-							<td>1</td>
-							<td>2</td>
-							<td>3</td>
-							<td>4</td>
-							<td>5</td>
-							<td>6</td>
+						<tr data-seq="${VO.emsSeq}" class="email-list">
+							<td>${in.index}</td>
+							<td>${VO.fromEmail}</td>
+							<td>${VO.fromName}</td>
+							<td>${VO.subject}</td>
+							<td>${VO.sendDate}</td>
+							<td>${VO.sendTime}</td>
 						</tr>
 					</c:forEach>
 				</c:otherwise>
 			</c:choose>
 		</table>
 		<div style="padding:10px 25px">
-			<button id="btn-email-send" onclick="location.href='${rootPath}/ems/input'">메일보내기</button>
+			<button id="btn-email-send" class="btn btn-primary"  
+			onclick="location.href='${rootPath}/ems/input'">메일보내기</button>
 		</div>
 	</article>
 </section>
