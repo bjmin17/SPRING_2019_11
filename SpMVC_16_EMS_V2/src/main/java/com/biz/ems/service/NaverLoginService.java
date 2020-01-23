@@ -12,12 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class NaverLoginService {
-
+	
 	private final String clientId = "UmyU89drsEYRT3v4R6no";
 	private final String loginAPI_URL = "https://nid.naver.com/oauth2.0/authorize";
 	
 	private final String callbackLocalURL = "http://localhost:8080/ems/naver/ok";
-	private final String callbackURL = "https://callor.com:12600/ems/naver/ok";
+	private final String callbackURL = "https://callor.com:12600/ems_bjmin17/member/naver/ok";
 	
 	public String oAuthLoginGet() {
 		
@@ -42,6 +42,7 @@ public class NaverLoginService {
 		String apiURL = loginAPI_URL ;
 		
 		apiURL += "?client_id=" + this.clientId;
+		apiURL += "&response_type=code";
 		apiURL += "&redirect_uri=" + redirectURI;
 		apiURL += "&state=" + stateKey;
 		
