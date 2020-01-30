@@ -8,17 +8,19 @@ import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class NaverLoginOK {
 
-	private String code;
-	private String state;
+public class NaverMember {
+
+	private String id;
 	private String email;
-	private String nickname;
 	private String name;
-	
-	
+	private String nickname;
+	private String gender;
+	private String age;
+	private String birthday;
+	private String profile_image;
 	
 }
