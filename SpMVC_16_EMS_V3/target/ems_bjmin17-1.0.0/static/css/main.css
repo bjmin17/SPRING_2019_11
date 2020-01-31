@@ -1,0 +1,50 @@
+@charset "UTF-8";
+/*
+	tag.class 또는 tag#id 형식으로 selector를 지정하는 이유
+	tag 전체에 style을 입히지 않고
+	특정한 tag에 class나 id가 설정된 곳에만 style을 입히겠다 라는 것
+*/
+	*{
+		
+	}
+	
+	.jumbotron{
+		margin:0;
+		background-color: green;
+		border-radius: 0;
+		font-weight: bold;
+	}
+	nav ul{
+		background-color: #50bcdf;
+		color: white;
+		transition:0.3s;
+		cursor:point;
+		border-bottom:2px solid transparent;
+	}
+	
+	nav ul li:nth-child(4){
+		margin-left: auto;
+	}
+	
+	nav ul li a {
+		color:white;
+	}
+	
+	nav ul li a:hover {
+		border-bottom: 2px solid black;
+		color:red;
+		font-weight: bold;
+	}
+	.btn-primary{
+		background-color: green;
+	}
+	div.bottom-button {
+		display: flex;
+		justify-content: flex-end;		
+	}
+	div.btn {
+	}
+	.view .table th{
+		background-color: #ccc;
+		width:10%;
+	}
