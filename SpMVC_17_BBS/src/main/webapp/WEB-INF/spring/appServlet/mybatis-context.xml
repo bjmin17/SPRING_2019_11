@@ -18,7 +18,7 @@
 	</bean>
 	
 	<!-- SqlSessionFactory -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="mysqlDS"/>
 		<property name="typeAliasesPackage" value="com.biz.bbs.domain"/>
 		<property name="mapperLocations" value="/WEB-INF/spring/mapper/*-mapper.xml"/>
