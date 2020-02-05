@@ -19,6 +19,11 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+<!-- include summernote css/js -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.15/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.15/dist/summernote.min.js"></script>
+<script src="${rootPath}/js/summernote-ko-KR.min.js"></script>
 <style>
 	body {
 		border:1px solid #aaa;
@@ -32,6 +37,28 @@
 			document.location.href = "${rootPath}/bbs/input"
 			
 		})
+		
+		var toolbar = [
+		
+		['style', ['bold','italic','underline']],
+		['fontsize',['fontsize']],
+		['font Style',['fontname']],
+		['color',['color']],
+		['para',['ul','ol','paragraph']],
+		['height',['height']],
+		['table',['table']],
+		['insert',['link','picture','hr']],
+		['view',['fullscreen','codeview']]
+		
+		]
+		
+		$("#bbs_content").summernote({
+			lang:"ko-KR",
+			height:'200px',
+			toolbar:toolbar,
+			disableDragAndDrop : false
+		})
+		
 		
 	})
 </script>

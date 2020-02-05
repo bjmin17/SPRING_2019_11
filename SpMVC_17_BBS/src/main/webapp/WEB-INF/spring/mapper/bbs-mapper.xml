@@ -6,12 +6,11 @@
  <mapper namespace="com.biz.bbs.mapper.BBsDao">
  
  	<select id="selectMain" resultMap="bbsReply">
- 		SELECT * FROM tbl_bbs WHERE bbs_p_id IS NULL
+ 		SELECT * FROM tbl_bbs WHERE bbs_p_id IS NULL OR bbs_p_id = 0
  	</select>
  
  	<resultMap type="bbsVO" id="bbsReply">
  		<id column="bbs_id" property="bbs_id"/>
- 		<result column="bbs_id" property="bbs_id"/>
  		<collection property="bbs_reply" column="bbs_id"
  			ofType="bbsVO" select="selectSub"/>
  	</resultMap>

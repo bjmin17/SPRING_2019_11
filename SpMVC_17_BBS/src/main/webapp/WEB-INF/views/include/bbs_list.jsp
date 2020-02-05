@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script>
 $(function(){
-	$(".bbsView").click(function(){
+	$(".bbs_tr").click(function(){
 		let bbs_id = $(this).attr("data-id")
 		document.location.href = "${rootPath}/bbs/view?bbs_id=" + bbs_id
 		
@@ -27,7 +27,7 @@ $(function(){
 			</c:when>
 			<c:otherwise>
 				<c:forEach var="BBS" items="${BBS_LIST}" varStatus="index">
-					<tr class="bbsView" data-id="${BBS.bbs_id}">
+					<tr class="bbs_tr" data-id="${BBS.bbs_id}">
 						<td>${index.count}</td>
 						<td>${BBS.bbs_writer}</td>
 						<td>${BBS.bbs_date}</td>
