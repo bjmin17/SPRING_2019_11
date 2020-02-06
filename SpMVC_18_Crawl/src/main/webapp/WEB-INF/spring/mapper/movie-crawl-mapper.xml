@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
- <mapper namespace="com.biz.crawl.persistance.NaverDao">
+ <mapper namespace="com.biz.crawl.persistence.NaverDao">
  
  	<insert id="insert">
  	INSERT INTO `tbl_movie`
@@ -17,7 +17,7 @@
 			#{m_rank},
 			#{m_title},
 			#{m_detail_url},
-			#{m_image_url})
+			#{m_image_url});
  	</insert>
  	
 
