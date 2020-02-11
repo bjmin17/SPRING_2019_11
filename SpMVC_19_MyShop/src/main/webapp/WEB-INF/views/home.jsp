@@ -28,7 +28,7 @@ $(function(){
 		<ul class="navbar-nav">
 			<li class="nav-item"><a class="nav-link" href="${rootPath}/">Home</a></li>
 			<sec:authorize access="isAnonymous()">
-				<li class="nav-item"><a class="nav-link" href="${rootPath}/login">로그인</a></li>
+				<li class="nav-item"><a class="nav-link" href="${rootPath}/auth/login">로그인</a></li>
 			</sec:authorize>
 			
 			<sec:authorize access="isAuthenticated()">

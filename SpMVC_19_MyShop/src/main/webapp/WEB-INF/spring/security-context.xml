@@ -12,9 +12,23 @@
 <security:authentication-manager>
 	<security:authentication-provider>
 		<security:user-service>
-			<security:user name="admin" password="{noop}password" authorities="ROLE_ADMIN"/>
-			<security:user name="user" password="{noop}password" authorities="ROLE_USER"/>
+			<security:user name="admin11" password="{noop}password" authorities="ROLE_ADMIN"/>
+			<security:user name="user11" password="{noop}password" authorities="ROLE_USER"/>
 		</security:user-service>
+	</security:authentication-provider>
+</security:authentication-manager>
+
+<!-- DB에서 사용자 정보 불러오기 -->
+<security:authentication-manager>
+	<security:authentication-provider>
+		<security:jdbc-user-service 
+				data-source-ref="emsHiber"
+				users-by-username-query="SELECT username,password,enabled FROM users WHERE username=?"
+				authorities-by-username-query="SELECT username,authority FROM authorities WHERE username=?"
+		
+		
+		
+		/>
 	</security:authentication-provider>
 </security:authentication-manager>
 
@@ -33,10 +47,14 @@ path에 admin이 들어가는게 있다면 ROLE_ADMIN(어드민)일 때만 접�
 
 <security:intercept-url pattern="/auth/**" access="hasAnyRole('USER,ADMIN')"/>
 USER나 ADMIN으로 접근하면 접속할 수 있다.
+
+<security:csrf disabled="false"/>
+csrf 인증하지 않는것을 취소하겠다 = 인증하겠다.
  -->
 <security:http auto-config="true" use-expressions="true">
+	<security:csrf disabled="false"/>
 	<security:intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
-	<security:intercept-url pattern="/auth/**" access="hasAnyRole('USER,ADMIN')"/>
+	<security:intercept-url pattern="/auth/**" access="permitAll()"/>
 	<security:intercept-url pattern="/**" access="permitAll"/>
 	
 	
@@ -44,12 +62,18 @@ USER나 ADMIN으로 접근하면 접속할 수 있다.
 	정상적으로 로그인이 되면(default-target-url) /로 redirect
 	로그인이 실패하면(authentication-failure-url) /login path에 error 변수를 하나 부착하여
 	다시 login으로 보내라
+	
+	login-page="/auth/login"
+	이것이 없으면 기본 제공되는 로그인 페이지를 보여줌.
 	 -->
 	<security:form-login 
-					login-page="/login"
+					login-page="/auth/login"			
+					
+					login-processing-url="/login"	
+					authentication-failure-url="/auth/login?error"
+					
 					default-target-url="/"
-					authentication-failure-url="/login?error"
-					username-parameter="id"
+					username-parameter="username"
 					password-parameter="password"
 					/>
 
@@ -60,9 +84,7 @@ USER나 ADMIN으로 접근하면 접속할 수 있다.
 	<security:logout
 		logout-url="/logout"
 		logout-success-url="/"
-	
 	/>
-	
 	
 </security:http>
 
