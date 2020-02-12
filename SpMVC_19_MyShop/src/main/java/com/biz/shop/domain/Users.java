@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 
 @Getter
 @Setter
@@ -26,5 +27,9 @@ public class Users {
 	private String username;
 	private String password;
 	private boolean enabled;
+	
+	
+	
+	
 }
 	
